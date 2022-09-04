@@ -5,17 +5,20 @@ import { Button } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const Login = ({ history }) => {
+const Login = () => {
   const [email, setEmail] = useState("gqlreactnode@gmail.com");
   const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
 
+  let navigate = useNavigate();
+
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    if (user && user.token) history.push("/");
-  }, []);
+    if (user && user.token) navigate("/");
+  },);
 
   let dispatch = useDispatch();
 
@@ -36,7 +39,7 @@ const Login = ({ history }) => {
           token: idTokenResult.token,
         },
       });
-      history.push("/");
+      navigate.push("/");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -57,7 +60,7 @@ const Login = ({ history }) => {
             token: idTokenResult.token,
           },
         });
-        history.push("/");
+        navigate.push("/");
       })
       .catch((err) => {
         console.log(err);

@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const ForgotPassword = ({ history }) => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+
+  let navigate = useNavigate();
 
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    if (user && user.token) history.push("/");
-  }, [user]);
+    if (user && user.token) navigate("/");
+  }, );
 
   const handleSubmit = async (e) => {
     e.preventDefault();

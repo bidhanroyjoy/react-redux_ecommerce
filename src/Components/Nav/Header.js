@@ -8,7 +8,15 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import firebase from "firebase";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/storage";
+import "firebase/compat/firestore";
+// import firebase from "firebase/app"
+// import { auth } from "./firebase";
+// import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+// import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 // import { useHistory } from "react-router-dom";
 
@@ -21,7 +29,7 @@ const Header = () => {
   let { user } = useSelector((state) => ({ ...state }));
 
   // let history = useHistory();
-
+  const navigate = useNavigate();
   const handleClick = (e) => {
     // console.log(e.key);
     setCurrent(e.key);
@@ -29,11 +37,12 @@ const Header = () => {
 
   const logout = () => {
     firebase.auth().signOut();
+    // signOut(auth)
     dispatch({
       type: "LOGOUT",
       payload: null,
     });
-    // history.push("/login");
+    navigate("/login");
   };
 
   return (
@@ -60,8 +69,17 @@ const Header = () => {
           title={user.email && user.email.split("@")[0]}
           className="float-right"
         >
-          <Item key="setting:1">Option 1</Item>
-          <Item key="setting:2">Option 2</Item>
+          {user && user.role === "subscriber" && (
+            <Item>
+              <Link to="/user/history">Dashboard</Link>
+            </Item>
+          )}
+
+          {user && user.role === "admin" && (
+            <Item>
+              <Link to="/admin/dashboard">Dashboard</Link>
+            </Item>
+          )}
           <Item icon={<LogoutOutlined />} onClick={logout}>
             Logout
           </Item>

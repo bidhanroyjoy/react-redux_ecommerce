@@ -5,14 +5,14 @@ import "./index.css";
 import 'antd/dist/antd.min.css'
 import App from "./App";
 
-import { createStore } from "redux";
+import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./reducers";
 
 import reportWebVitals from "./reportWebVitals";
 
-const store = createStore(rootReducer, composeWithDevTools());
+const store = configureStore (rootReducer, composeWithDevTools());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
